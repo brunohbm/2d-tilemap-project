@@ -6,8 +6,18 @@ public class PlayerMoviment : MonoBehaviour {
 
     public float speed;
 
-	void Update () {
+    float moveHorizontal;
+    float moveVertical;
+
+    Animator animator;
+
+    private void Start() {
+        animator = GetComponent<Animator>();
+    }
+
+    void Update () {
         Move();
+        SetAnimation();
 	}
 
     void Move() {
@@ -16,8 +26,23 @@ public class PlayerMoviment : MonoBehaviour {
     }
 
     Vector3 GetAxis() {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        moveHorizontal = Input.GetAxis("Horizontal");
+        moveVertical = Input.GetAxis("Vertical");
         return new Vector3(moveHorizontal, moveVertical, 0);
+    }
+
+    void SetAnimation() {
+        SetLayer();
+        animator.SetFloat("x", moveHorizontal);
+        animator.SetFloat("y", moveVertical);
+    }
+
+    void SetLayer() {
+        if (moveHorizontal == 0 && moveVertical == 0)
+        {
+            animator.SetLayerWeight(1, 0);
+            return;
+        }
+        animator.SetLayerWeight(1, 1);
     }
 }
