@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - EnemyCollider
   layers:
   - Default
   - TransparentFX
@@ -13,8 +15,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Enemy
+  - Player
   - 
   - 
   - 
@@ -44,7 +46,7 @@ TagManager:
   - name: Tilemap Default
     uniqueID: 1611687267
     locked: 0
-  - name: Player
+  - name: Players
     uniqueID: 3531377979
     locked: 0
   - name: Tilemap Front
