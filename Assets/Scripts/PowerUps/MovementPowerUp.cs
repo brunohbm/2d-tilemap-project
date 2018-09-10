@@ -8,12 +8,13 @@ public class MovementPowerUp : MonoBehaviour {
     public float animatorSpeed;
     public float time;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.name == "Player")
         {
-            PlayerController.SetMovement(new Movement(movementSpeed, animatorSpeed));
+            PlayerController.SetMovement(new PlayerMovement(movementSpeed, animatorSpeed));
             PlayerController.StartCountdown(time);
+            SpawnController.Spawn();
             Destroy(gameObject);
         }
     }

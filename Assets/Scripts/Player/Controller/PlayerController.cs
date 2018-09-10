@@ -5,21 +5,31 @@ public class PlayerController : MonoBehaviour {
     
     public float speed;
 
-    static Movement playerMovement;
+    public GameObject defaultBullet;
+
+    static PlayerMovement playerMovement;
+
+    GunController gunController;
     Animator animator;
 
     static float countdownTime = 0;
 
+    static bool backToDefault;
+
     void Start()
     {
         animator = GetComponent<Animator>();
-        playerMovement = new Movement(speed, 1.0F);
+        playerMovement = new PlayerMovement(speed, 1.0F);
+        gunController = new GunController(defaultBullet);
     }
 
     void Update()
-    {
-        if (countdownTime != 0)
+    {        
+        if (backToDefault)
             StartCoroutine("BackToDefault");
+
+        if (Input.GetButtonDown("Shoot"))
+            gunController.Shoot(gameObject.transform);
 
         playerMovement.Walk(transform);
         playerMovement.Animate(animator);
@@ -35,12 +45,12 @@ public class PlayerController : MonoBehaviour {
 
     IEnumerator BackToDefault()
     {
+        backToDefault = false;
         yield return new WaitForSeconds(countdownTime);
-        playerMovement = new Movement(speed, 1.0F);
-        countdownTime = 0;
+        playerMovement = new PlayerMovement(speed, 1.0F);        
     }
 
-    public static void SetMovement(Movement movement)
+    public static void SetMovement(PlayerMovement movement)
     {
         playerMovement = movement;
     }
@@ -48,5 +58,6 @@ public class PlayerController : MonoBehaviour {
     public static void StartCountdown(float time)
     {
         countdownTime = time;
+        backToDefault = true;
     }
 }
