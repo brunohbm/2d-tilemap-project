@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class DefaultEnemyAI : MonoBehaviour {
+public class EnemyFollowAI : MonoBehaviour {
 
     Transform player;
     CircleCollider2D cricleCollider2D;
+    EnemyMovementAI movimentScript;
 
-    public float speed;
+    public float followSpeed;
     public float stopDistance;
     public float followDistance;
     
@@ -24,7 +23,8 @@ public class DefaultEnemyAI : MonoBehaviour {
     }
 
     void Start () {
-        player = GameObject.FindWithTag("Player").transform;        
+        player = GameObject.FindWithTag("Player").transform;
+        movimentScript = GetComponent<EnemyMovementAI>();
 	}
 	
 	void Update () {
@@ -37,17 +37,19 @@ public class DefaultEnemyAI : MonoBehaviour {
 	}
 
     void Follow () {
-        transform.position = Vector3.MoveTowards(transform.position, player.position, (speed * Time.deltaTime));
+        transform.position = Vector3.MoveTowards(transform.position, player.position, (followSpeed * Time.deltaTime));
     }
 
     void CheckStopDistance() {        
         if (GetDistance() >= stopDistance) {
+            movimentScript.enabled = true;
             near = false;
         }                
     }
 
     void CheckFollowDistance() {
         if (GetDistance() <= followDistance) {
+            movimentScript.enabled = false;
             near = true;
         }
     }
