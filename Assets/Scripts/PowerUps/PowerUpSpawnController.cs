@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnController : MonoBehaviour {
+public class PowerUpSpawnController : MonoBehaviour {
 
     public float waitTime;
 
     public GameObject[] powerUps;
 
-    static int spawn = 0;
+    static int spawn = 0;    
 
     void Update() {
         if (spawn < 3)
@@ -17,9 +17,15 @@ public class SpawnController : MonoBehaviour {
 
     Transform GetSpawnPoint()
     {
-        int maxNum = gameObject.transform.childCount;
-        int randomNum = Random.Range(0, maxNum);
-        return gameObject.transform.GetChild(randomNum);
+        Transform newSpawnPoint;
+
+        do {
+            int maxNum = gameObject.transform.childCount;
+            int randomNum = Random.Range(0, maxNum);
+            newSpawnPoint = gameObject.transform.GetChild(randomNum);
+        } while (newSpawnPoint.childCount > 0);
+
+        return newSpawnPoint;
     }
 
     GameObject GetPowerUp()
@@ -33,7 +39,8 @@ public class SpawnController : MonoBehaviour {
     {        
         spawn += 1;
         yield return new WaitForSeconds(waitTime);
-        Instantiate(GetPowerUp(), GetSpawnPoint().position, GetSpawnPoint().rotation);
+        Transform spawnPoint = GetSpawnPoint();
+        Instantiate(GetPowerUp(), spawnPoint.position, spawnPoint.rotation, spawnPoint);
     }
 
     public static void Spawn()

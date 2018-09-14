@@ -3,33 +3,24 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {  
     
-    public float speed;
+    public float speed;        
 
-    public GameObject defaultBullet;
-
-    static PlayerMovement playerMovement;
-
+    PlayerMovement playerMovement;
     GunController gunController;
     Animator animator;
 
-    static float countdownTime = 0;
-
-    static bool backToDefault;
-
     void Start()
-    {
+    {        
         animator = GetComponent<Animator>();
+        gunController = GetComponent<GunController>();
         playerMovement = new PlayerMovement(speed, 1.0F);
-        gunController = new GunController(defaultBullet);
+        playerMovement.lastPosition = new Vector3(0, -1);
     }
 
     void Update()
     {        
-        if (backToDefault)
-            StartCoroutine("BackToDefault");
-
         if (Input.GetButtonDown("Shoot"))
-            gunController.Shoot(gameObject.transform);
+            gunController.Shoot(playerMovement.lastPosition);
 
         playerMovement.Walk(transform);
         playerMovement.Animate(animator);
@@ -43,21 +34,20 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    IEnumerator BackToDefault()
+    public void ChangeSpeed(float movementSpeed, float animatorSpeed)
     {
-        backToDefault = false;
+        playerMovement.movementSpeed = movementSpeed;
+        playerMovement.animatorSpeed = animatorSpeed;
+    }
+
+    public void StartCountdown(float time)
+    {
+        StartCoroutine(BackToDefault(time));
+    }
+
+    IEnumerator BackToDefault(float countdownTime)
+    {
         yield return new WaitForSeconds(countdownTime);
         playerMovement = new PlayerMovement(speed, 1.0F);        
-    }
-
-    public static void SetMovement(PlayerMovement movement)
-    {
-        playerMovement = movement;
-    }
-
-    public static void StartCountdown(float time)
-    {
-        countdownTime = time;
-        backToDefault = true;
-    }
+    }    
 }

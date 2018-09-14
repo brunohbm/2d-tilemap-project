@@ -1,25 +1,27 @@
 ﻿using UnityEngine;
 
 public class GunController : MonoBehaviour {
+    
+    GameObject prefabBullet; 
+    
+    int shots;
 
-    static GameObject prefabBullet;
-
-    float speed = 50000;
-
-    public GunController(GameObject defaultBullet)
-    {
-        SetBullet(defaultBullet);
+    public void Shoot(Vector3 lastPosition)
+    {        
+        if (shots > 0)
+        {            
+            GameObject instantiatedBullet = Instantiate(prefabBullet, transform.position, transform.rotation);
+            Rigidbody2D rb2D = instantiatedBullet.GetComponent<Rigidbody2D>();
+            Bullet bullet = instantiatedBullet.GetComponent<Bullet>();
+            rb2D.AddForce(lastPosition * (bullet.speed * Time.deltaTime));            
+            shots--;
+        }        
     }
 
-    public void Shoot(Transform player)
-    {
-        GameObject bullet = Instantiate(prefabBullet, player.position, player.rotation);
-        Rigidbody2D rb2D = bullet.GetComponent<Rigidbody2D>();
-        rb2D.AddForce(PlayerMovement.GetLastPosition() * (speed * Time.deltaTime));
-    }
-
-    public static void SetBullet(GameObject newBullet)
+    public void AddMunition(GameObject newBullet)
     {
         prefabBullet = newBullet;
+        shots = 3;
     }
+
 }

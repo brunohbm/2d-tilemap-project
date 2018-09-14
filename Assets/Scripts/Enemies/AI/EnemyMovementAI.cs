@@ -9,19 +9,21 @@ public class EnemyMovementAI : MonoBehaviour {
     public float stoppedTime;
 
     Vector3 nextPosition;
+    EnemySpawnController enemySpawnController;
 
     bool wait;
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        if(nextPosition != null)
+        if(nextPosition != Vector3.zero)
         Gizmos.DrawLine(transform.position, nextPosition);
         Gizmos.DrawWireSphere(transform.position, moveDistance);
     }
 
     void Start ()
     {
+        enemySpawnController = gameObject.GetComponentInParent<EnemySpawnController>();
         nextPosition = transform.position;
     }
 	
@@ -55,22 +57,22 @@ public class EnemyMovementAI : MonoBehaviour {
 
         newPosition += nextPosition;
 
-        RaycastHit2D raycastHit2D = Physics2D.LinecastNonAlloc(transform.position, newPosition);        
-        if (raycastHit2D.collider != null)
-        {
+        RaycastHit2D raycastHit2D = Physics2D.Linecast(transform.position, newPosition, LayerMask.GetMask("Tile"));        
+        if (raycastHit2D.collider == null)
+        {            
             nextPosition = newPosition;
             wait = false;
             return;
         }
         GetNextPosition();
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Player")
-        {
-            
+        if(collision.gameObject.tag == "Bullet")
+        {            
+            enemySpawnController.enemiesToSpawn++;
+            Destroy(gameObject);
         }
         else
         {

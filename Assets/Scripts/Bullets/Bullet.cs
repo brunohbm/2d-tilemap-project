@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DefaultBullet : MonoBehaviour {
+public class Bullet : MonoBehaviour {
 
     public float lifeTime;
+    public float speed;
 
 	void Start () {
         GetComponent<BoxCollider2D>().enabled = false;

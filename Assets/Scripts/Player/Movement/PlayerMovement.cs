@@ -2,13 +2,13 @@
 
 public class PlayerMovement {
 
-    float movementSpeed;
-    float animatorSpeed;
+    public float movementSpeed;
+    public float animatorSpeed;
 
     float moveHorizontal;
     float moveVertical;
 
-    static Vector3 lastPosition = new Vector3(0,-1);
+    public Vector3 lastPosition;
 
     public PlayerMovement(float movementSpeed, float animatorSpeed)
     {
@@ -21,7 +21,7 @@ public class PlayerMovement {
         Vector3 movement = GetAxis() * movementSpeed;
         transform.Translate(movement * Time.deltaTime);
         SaveLastPosition(GetAxis());
-    }
+    }   
 
     public void Animate(Animator animator)
     {
@@ -52,10 +52,5 @@ public class PlayerMovement {
     {
         if (position != Vector3.zero)                    
             lastPosition = position;      
-    }
-
-    public static Vector3 GetLastPosition()
-    {
-        return lastPosition;
     }
 }
