@@ -2,9 +2,16 @@
 
 public class GunController : MonoBehaviour {
     
-    GameObject prefabBullet; 
+    GameObject prefabBullet;
+    BulletHUD bulletHUD;
     
     int shots;
+
+    private void Start()
+    {
+        bulletHUD = FindObjectOfType<BulletHUD>();
+        bulletHUD.ChangeHUD(shots);
+    }
 
     public void Shoot(Vector3 lastPosition)
     {        
@@ -15,6 +22,7 @@ public class GunController : MonoBehaviour {
             Bullet bullet = instantiatedBullet.GetComponent<Bullet>();
             rb2D.AddForce(lastPosition * (bullet.speed * Time.deltaTime));            
             shots--;
+            bulletHUD.ChangeHUD(shots);
         }        
     }
 
@@ -22,6 +30,7 @@ public class GunController : MonoBehaviour {
     {
         prefabBullet = newBullet;
         shots = 3;
+        bulletHUD.ChangeHUD(shots);
     }
 
 }

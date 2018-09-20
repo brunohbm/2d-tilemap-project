@@ -14,6 +14,7 @@ public class BulletPowerUp : MonoBehaviour {
         {
             gunController = collision.gameObject.GetComponent<GunController>();
             gunController.AddMunition(GetRandomBullet());
+            PowerUpSpawnController.Spawn();
             Destroy(gameObject);
         }
     }
