@@ -11,6 +11,7 @@ public class BulletHUD : MonoBehaviour {
     void Start ()
     {
         imageComponent = GetComponent<Image>();
+		ChangeHUD (0);
 	}
 
     public void ChangeHUD(int bullets)

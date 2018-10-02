@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - EnemyCollider
   - Bullet
+  - Car
   layers:
   - Default
   - TransparentFX
@@ -52,6 +53,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3531377979
+    locked: 0
+  - name: Cars
+    uniqueID: 1595220447
     locked: 0
   - name: Enemy
     uniqueID: 2488357445

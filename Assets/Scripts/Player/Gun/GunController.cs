@@ -8,9 +8,8 @@ public class GunController : MonoBehaviour {
     int shots;
 
     private void Start()
-    {
-        bulletHUD = FindObjectOfType<BulletHUD>();
-        bulletHUD.ChangeHUD(shots);
+    {		
+        bulletHUD = FindObjectOfType<BulletHUD>();        
     }
 
     public void Shoot(Vector3 lastPosition)

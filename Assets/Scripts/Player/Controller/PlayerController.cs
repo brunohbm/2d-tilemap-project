@@ -31,8 +31,21 @@ public class PlayerController : MonoBehaviour {
         if (collision.gameObject.tag == "Enemy")
         {
             Debug.Log("remember to create the load scene");
-        }
+			return;
+        }			
     }
+
+	void OnTriggerStay2D(Collider2D collider)
+	{		
+		if (collider.gameObject.tag == "Car" && Input.GetButtonDown("Action")) 
+		{
+			gameObject.GetComponent<BoxCollider2D> ().enabled = false;
+			transform.position = collider.transform.position;
+			transform.parent = collider.transform;
+			collider.gameObject.GetComponent<CarController> ().enabled = true;
+			gameObject.GetComponent<PlayerController> ().enabled = false;
+		}
+	}
 
     public void ChangeSpeed(float movementSpeed, float animatorSpeed)
     {
@@ -49,5 +62,6 @@ public class PlayerController : MonoBehaviour {
     {
         yield return new WaitForSeconds(countdownTime);
         playerMovement = new PlayerMovement(speed, 1.0F);        
-    }    
+    } 
+		
 }
